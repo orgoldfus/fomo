@@ -1,0 +1,27 @@
+{
+  "name": "fomo",
+  "version": "0.1.0",
+  "description": "A CLI tool for all the latest tech news",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orgoldfus/fomo.git"
+  },
+  "author": "Or Goldfus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/orgoldfus/fomo/issues"
+  },
+  "homepage": "https://github.com/orgoldfus/fomo#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "chalk": "^4.1.0",
+    "commander": "^5.1.0",
+    "lodash": "^4.17.15",
+    "ora": "^4.0.4",
+    "terminal-link": "^2.1.1"
+  }
+}
