@@ -1,19 +1,31 @@
 const provider = require("./provider")
 const formatter = require("./formatter")
+const { getFromCache, cachedDataIsValid } = require("../../utils/cache")
+
+const providerDetails = { name: "Hacker News", id: "hn" }
 const fetchTypes = {
   BEST: "best"
 }
 
-async function fetchItems(
-  numOfItems = 10,
+async function fetchItems({
+  numOfItems,
   type = fetchTypes.BEST,
-  options = {}
-) {
+  options = {},
+  config
+}) {
   let stories
 
   switch (type) {
     case fetchTypes.BEST: {
-      stories = await provider.getBestStories(numOfItems)
+      const cachedData = getFromCache(
+        config,
+        providerDetails.id,
+        fetchTypes.BEST
+      )
+      stories =
+        cachedData && cachedDataIsValid(cachedData)
+          ? cachedData.items
+          : await provider.getBestStories(numOfItems)
       break
     }
     default:
@@ -26,6 +38,5 @@ async function fetchItems(
 module.exports = {
   fetchItems,
   types: fetchTypes,
-  name: 'Hacker News',
-  id: 'hn'
+  ...providerDetails
 }

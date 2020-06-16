@@ -1,20 +1,34 @@
 const provider = require("./provider")
 const formatter = require("./formatter")
+const { getFromCache, cachedDataIsValid } = require("../../utils/cache")
+
+const providerDetails = { name: "Product Hunt", id: "ph" }
 const fetchTypes = {
   TOP: "top"
 }
 
-async function fetchItems(
-  numOfItems = 10,
+async function fetchItems({
+  numOfItems,
   type = fetchTypes.TOP,
-  options = {}
-) {
+  options = {},
+  config
+}) {
   let items
 
   switch (type) {
     case fetchTypes.TOP: {
-      const { data } = await provider.getTop(numOfItems)
-      items = data
+      const cachedData = getFromCache(
+        config,
+        providerDetails.id,
+        fetchTypes.TOP
+      )
+
+      if (cachedData && cachedDataIsValid(cachedData)) {
+        stories = cachedData.items
+      } else {
+        const { data } = await provider.getTop(numOfItems)
+        items = data
+      }
       break
     }
     default:
@@ -27,6 +41,5 @@ async function fetchItems(
 module.exports = {
   fetchItems,
   types: fetchTypes,
-  name: 'Product Hunt',
-  id: 'ph'
+  ...providerDetails
 }
