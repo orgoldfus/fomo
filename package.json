@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "A CLI tool for all the latest tech news",
   "main": "index.js",
+  "bin": {
+    "fomo": "index.js",
+    "@orgoldfus/fomo": "index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
