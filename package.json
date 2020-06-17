@@ -1,5 +1,5 @@
 {
-  "name": "fomo-cli",
+  "name": "fomoapp",
   "version": "0.1.0",
   "description": "Get the latest tech news right into your CLI",
   "main": "index.js",
