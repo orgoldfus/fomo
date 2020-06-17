@@ -1,11 +1,10 @@
 {
-  "name": "fomo",
+  "name": "fomo-cli",
   "version": "0.1.0",
-  "description": "A CLI tool for all the latest tech news",
+  "description": "Get the latest tech news right into your CLI",
   "main": "index.js",
   "bin": {
-    "fomo": "index.js",
-    "@orgoldfus/fomo": "index.js"
+    "fomo": "index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
