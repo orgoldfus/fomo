@@ -1,11 +1,14 @@
-const provider = require("./provider")
+const { fetchTypes, getStories } = require("./provider")
 const formatter = require("./formatter")
-const { getFromCache, cachedDataIsValid } = require("../../utils/cache")
+const { take } = require("lodash")
+const {
+  getFromCache,
+  cacheProviderResult,
+  isCacheDataValid
+} = require("../../utils/cache")
 
+const CACHE_TTL_MINUTES = 10
 const providerDetails = { name: "Hacker News", id: "hn" }
-const fetchTypes = {
-  BEST: "best"
-}
 
 async function fetchItems({
   numOfItems,
@@ -13,24 +16,17 @@ async function fetchItems({
   options = {},
   config
 }) {
-  let stories
-
-  switch (type) {
-    case fetchTypes.BEST: {
-      const cachedData = getFromCache(
-        config,
-        providerDetails.id,
-        fetchTypes.BEST
-      )
-      stories =
-        cachedData && cachedDataIsValid(cachedData)
-          ? cachedData.items
-          : await provider.getBestStories(numOfItems)
-      break
-    }
-    default:
-      throw new Error(`hackerNews item type ${type} is not defined`)
+  if (!Object.values(fetchTypes).includes(type)) {
+    throw new Error(`hackerNews item type ${type} is not defined`)
   }
+
+  const cachedData = getFromCache(providerDetails.id, type)
+  if (isCacheDataValid(cachedData, numOfItems, CACHE_TTL_MINUTES)) {
+    return take(cachedData.data.map(formatter.formatStory), numOfItems)
+  }
+
+  const stories = await getStories(numOfItems, type)
+  cacheProviderResult(providerDetails.id, type, stories)
 
   return stories.map(formatter.formatStory)
 }
