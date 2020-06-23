@@ -1,22 +1,20 @@
 const axios = require("axios")
 const API_URL = "https://hacker-news.firebaseio.com"
-
-async function _getBestStoriesIds() {
-  const response = await axios.get(
-    `${API_URL}/v0/beststories.json?print=pretty`
-  )
-  return response.data
+const fetchTypes = {
+  BEST: "best",
+  TOP: "top",
+  NEW: "new"
 }
 
-async function getBestStories(numOfStories) {
-  const bestStoriesIds = await _getBestStoriesIds()
-  const topXIds = bestStoriesIds.slice(0, numOfStories)
+async function getStories(numOfStories, type) {
+  const storiesIds = await _getStoriesIdsByType(type)
+  const topXIds = storiesIds.slice(0, numOfStories)
 
-  const topStoriesPromises = topXIds.map((id) =>
+  const storiesPromises = topXIds.map((id) =>
     axios.get(`${API_URL}/v0/item/${id}.json?print=pretty`)
   )
 
-  const rawResponse = await Promise.all(topStoriesPromises)
+  const rawResponse = await Promise.all(storiesPromises)
   return rawResponse.map((story) => {
     const data = story.data
 
@@ -30,6 +28,20 @@ async function getBestStories(numOfStories) {
   })
 }
 
+async function _getStoriesIdsByType(type) {
+  const typeToUrlMap = {
+    [fetchTypes.BEST]: 'v0/beststories.json?print=pretty',
+    [fetchTypes.TOP]: 'v0/topstories.json?print=pretty',
+    [fetchTypes.NEW]: 'v0/newstories.json?print=pretty',
+  }
+
+  const getIdsUrl = typeToUrlMap[type]
+  const response = await axios.get(`${API_URL}/${getIdsUrl}`)
+
+  return response.data
+}
+
 module.exports = {
-  getBestStories
+  getStories,
+  fetchTypes
 }
