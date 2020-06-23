@@ -2,7 +2,7 @@ const chalk = require("chalk")
 const link = require("terminal-link")
 const { fallbackLinkFormatter } = require("../../utils/link")
 
-function formatItems(item) {
+function formatProducts(item) {
   return `${link(chalk.green.bold(item.name), item.website, {
     fallback: fallbackLinkFormatter
   })} ${chalk.white(`- ${item.description}`)} ${chalk.grey(
@@ -11,5 +11,5 @@ function formatItems(item) {
 }
 
 module.exports = {
-  formatItems
+  formatProducts
 }
