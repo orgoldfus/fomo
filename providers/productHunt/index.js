@@ -1,5 +1,6 @@
 const { fetchTypes, getProducts } = require("./provider")
 const formatter = require("./formatter")
+const { take } = require("lodash")
 const {
   getFromCache,
   cacheProviderResult,
@@ -20,8 +21,8 @@ async function fetchItems({
   }
 
   const cachedData = getFromCache(providerDetails.id, type)
-  if (isCacheDataValid(cachedData, CACHE_TTL_MINUTES)) {
-    return cachedData.data.map(formatter.formatProducts)
+  if (isCacheDataValid(cachedData, numOfItems, CACHE_TTL_MINUTES)) {
+    return take(cachedData.data.map(formatter.formatProducts), numOfItems)
   }
 
   const products = await getProducts(numOfItems, type)

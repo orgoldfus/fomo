@@ -1,4 +1,5 @@
 const Configstore = require("configstore")
+const { get } = require("lodash")
 
 const cache = new Configstore("fomoapp_cache")
 
@@ -13,14 +14,21 @@ function getFromCache(providerId, type) {
   return cache.get(key)
 }
 
-function isCacheDataValid(cacheResult, cacheTTLMinutes = 15) {
+function isCacheDataValid(
+  cacheResult,
+  minItemsCount = 1,
+  cacheTTLMinutes = 15
+) {
   if (!cacheResult) return false
 
   const cachedAt = new Date(cacheResult.cachedAt)
   const latestValidDate = new Date()
   latestValidDate.setMinutes(latestValidDate.getMinutes() - cacheTTLMinutes)
 
-  return cachedAt > latestValidDate
+  return (
+    get(cacheResult, "data.length", 0) > minItemsCount &&
+    cachedAt > latestValidDate
+  )
 }
 
 module.exports = {
