@@ -14,6 +14,19 @@ function getFromCache(providerId, type) {
   return cache.get(key)
 }
 
+function clearCache(providerId, type) {
+  let key = '';
+  if (providerId) {
+    key = providerId
+
+    if (type) {
+      key += `.${type}`
+    }
+  }
+
+  return key ? cache.delete(key) : cache.clear()
+}
+
 function isCacheDataValid(
   cacheResult,
   minItemsCount = 1,
@@ -26,7 +39,7 @@ function isCacheDataValid(
   latestValidDate.setMinutes(latestValidDate.getMinutes() - cacheTTLMinutes)
 
   return (
-    get(cacheResult, "data.length", 0) > minItemsCount &&
+    get(cacheResult, "data.length", 0) >= minItemsCount &&
     cachedAt > latestValidDate
   )
 }
@@ -34,5 +47,6 @@ function isCacheDataValid(
 module.exports = {
   cacheProviderResult,
   getFromCache,
-  isCacheDataValid
+  isCacheDataValid,
+  clearCache
 }
