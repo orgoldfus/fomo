@@ -1,13 +1,19 @@
-function getFromCache(config, providerId, type) {
-  const key = `cache.${providerId}.${type}`
-  return config.get(key)
+const Configstore = require("configstore")
+
+const cache = new Configstore("fomoapp_cache")
+
+function cacheProviderResult(config, providerId, type, data) {
+  const key = `${providerId}.${type}`
+  const cachedData = { cachedAt: Date.now(), data }
+  return cache.set(key, cachedData)
 }
 
-function cachedDataIsValid(data) {
-  return true
+function getFromCache(config, providerId, type) {
+  const key = `${providerId}.${type}`
+  return cache.get(key)
 }
 
 module.exports = {
-  getFromCache,
-  cachedDataIsValid
+  cacheProviderResult,
+  getFromCache
 }
