@@ -1,9 +1,11 @@
 const hackerNews = require("./hackerNews")
 const productHunt = require("./productHunt")
+const techCrunch = require("./techCrunch")
 const wired = require("./wired")
 
 module.exports = [
-  wired, 
   hackerNews, 
-  productHunt
+  productHunt,
+  techCrunch,
+  wired
 ]

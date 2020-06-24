@@ -8,7 +8,7 @@ const {
 } = require("../../utils/cache")
 
 const CACHE_TTL_MINUTES = 10
-const providerDetails = { name: "Wired", id: "wired" }
+const providerDetails = { name: "TechCrunch", id: "tc" }
 
 async function fetchItems({
   numOfItems,
@@ -17,7 +17,7 @@ async function fetchItems({
   config
 }) {
   if (!Object.values(fetchTypes).includes(type)) {
-    throw new Error(`Wired item type ${type} is not defined`)
+    throw new Error(`TechCrunch item type ${type} is not defined`)
   }
 
   const cachedData = getFromCache(providerDetails.id, type)

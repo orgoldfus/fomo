@@ -5,7 +5,7 @@ const packageJson = require("./package.json")
 const availableProviders = require("./providers")
 const { printItems, clearCache } = require("./cli")
 
-const config = new Configstore(packageJson.name, { default_items_limit: 10 })
+const config = new Configstore(packageJson.name, { default_items_limit: 5 })
 const program = new Command()
 
 program.version(packageJson.version)
