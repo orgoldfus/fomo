@@ -1,7 +1,9 @@
-const hackerNews = require('./hackerNews')
-const productHunt = require('./productHunt')
+const hackerNews = require("./hackerNews")
+const productHunt = require("./productHunt")
+const wired = require("./wired")
 
 module.exports = [
-  hackerNews,
+  wired, 
+  hackerNews, 
   productHunt
 ]
