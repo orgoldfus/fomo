@@ -1,5 +1,8 @@
 const Parser = require("rss-parser")
 const { pick } = require("lodash")
+const chalk = require("chalk")
+const link = require("terminal-link")
+const { fallbackLinkFormatter } = require("../utils/link")
 
 const BASE_URL = "http://feeds.feedburner.com"
 const rssParser = new Parser()
@@ -42,7 +45,19 @@ async function getStories(numOfStories, type) {
   return stories
 }
 
+function formatStory(item) {
+  return `${link(chalk.green.bold(item.title), item.link, {
+    fallback: fallbackLinkFormatter
+  })} ${chalk.white(`- ${item.contentSnippet}`)} ${chalk.grey(
+    `(${item.isoDate}, by ${item.creator})`
+  )}`
+}
+
 module.exports = {
-  getStories,
-  fetchTypes
+  fetchTypes,
+  defaultFetchType: fetchTypes.TOP,
+  details: { name: "TechCrunch", id: "tc" },
+  getItems: getStories,
+  formatter: formatStory,
+  defaultCacheTTL: 10
 }

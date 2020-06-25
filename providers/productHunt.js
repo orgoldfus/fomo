@@ -1,5 +1,8 @@
 const axios = require("axios")
 const { get } = require("lodash")
+const chalk = require("chalk")
+const link = require("terminal-link")
+const { fallbackLinkFormatter } = require("../utils/link")
 
 const API_URL = "https://api.producthunt.com/v2/api/graphql"
 const fetchTypes = {
@@ -7,6 +10,13 @@ const fetchTypes = {
   TOP_VOTES: "top_votes",
   FEATURED: "featured",
   NEW: "new"
+}
+
+const typeToOrderMap = {
+  [fetchTypes.TOP_RANKING]: "RANKING",
+  [fetchTypes.TOP_VOTES]: "VOTES",
+  [fetchTypes.FEATURED]: "FEATURED_AT",
+  [fetchTypes.NEW]: "NEWEST"
 }
 
 async function getProducts(numOfPosts = 10, type, cursor) {
@@ -26,13 +36,6 @@ async function getProducts(numOfPosts = 10, type, cursor) {
 
   const fromDate = new Date()
   fromDate.setDate(fromDate.getDate() - 14) // last two weeks
-
-  const typeToOrderMap = {
-    [fetchTypes.TOP_RANKING]: "RANKING",
-    [fetchTypes.TOP_VOTES]: "VOTES",
-    [fetchTypes.FEATURED]: "FEATURED_AT",
-    [fetchTypes.NEW]: "NEWEST"
-  }
 
   const variables = {
     count: numOfPosts,
@@ -70,7 +73,19 @@ function _buildPHResponse(queryResult) {
   return data
 }
 
+function formatProduct(item) {
+  return `${link(chalk.green.bold(item.name), item.website, {
+    fallback: fallbackLinkFormatter
+  })} ${chalk.white(`- ${item.description}`)} ${chalk.grey(
+    `(votes: ${item.votesCount})`
+  )}`
+}
+
 module.exports = {
-  getProducts,
-  fetchTypes
+  fetchTypes,
+  defaultFetchType: fetchTypes.TOP_VOTES,
+  details: { name: "Product Hunt", id: "ph" },
+  getItems: getProducts,
+  formatter: formatProduct,
+  defaultCacheTTL: 10
 }
