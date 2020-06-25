@@ -5,7 +5,7 @@ const { buildProviderObject } = require("../utils/provider")
 
 const providers = fs
   .readdirSync(__dirname)
-  .filter((file) => file !== basename && file.endsWith('.js'))
+  .filter((file) => file !== basename)
   .map((file) => {
     const provider = require(`${__dirname}/${file}`)
     return buildProviderObject(provider)
