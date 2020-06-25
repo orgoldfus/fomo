@@ -1,5 +1,8 @@
 const Parser = require("rss-parser")
 const { pick } = require("lodash")
+const chalk = require("chalk")
+const link = require("terminal-link")
+const { fallbackLinkFormatter } = require("../utils/link")
 
 const BASE_URL = "https://www.reddit.com/r"
 const rssParser = new Parser()
@@ -37,7 +40,17 @@ async function getStories(numOfStories, type) {
   return stories
 }
 
+function formatStory(item) {
+  return `${link(chalk.green.bold(item.title), item.link, {
+    fallback: fallbackLinkFormatter
+  })} ${chalk.grey(`(${item.isoDate}, by ${item.author})`)}`
+}
+
 module.exports = {
-  getStories,
-  fetchTypes
+  fetchTypes,
+  defaultFetchType: fetchTypes.WEBDEV,
+  details: { name: "Reddit", id: "reddit" },
+  getItems: getStories,
+  formatter: formatStory,
+  defaultCacheTTL: 10
 }

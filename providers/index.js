@@ -1,13 +1,14 @@
-const hackerNews = require("./hackerNews")
-const productHunt = require("./productHunt")
-const techCrunch = require("./techCrunch")
-const reddit = require("./reddit")
-const wired = require("./wired")
+const path = require("path")
+const fs = require("fs")
+const basename = path.basename(__filename)
+const { buildProviderObject } = require("../utils/provider")
 
-module.exports = [
-  hackerNews, 
-  productHunt,
-  techCrunch,
-  reddit,
-  wired
-]
+const providers = fs
+  .readdirSync(__dirname)
+  .filter((file) => file !== basename)
+  .map((file) => {
+    const provider = require(`${__dirname}/${file}`)
+    return buildProviderObject(provider)
+  })
+
+module.exports = providers

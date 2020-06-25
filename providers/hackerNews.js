@@ -1,4 +1,7 @@
 const axios = require("axios")
+const chalk = require("chalk")
+const link = require("terminal-link")
+const { fallbackLinkFormatter } = require("../utils/link")
 
 const API_URL = "https://hacker-news.firebaseio.com"
 const fetchTypes = {
@@ -34,12 +37,12 @@ async function getStories(numOfStories, type) {
 
 async function _getStoriesIdsByType(type) {
   const typeToUrlMap = {
-    [fetchTypes.BEST]: 'v0/beststories.json',
-    [fetchTypes.TOP]: 'v0/topstories.json',
-    [fetchTypes.NEW]: 'v0/newstories.json',
-    [fetchTypes.ASK]: 'v0/askstories.json',
-    [fetchTypes.SHOW]: 'v0/showstories.json',
-    [fetchTypes.JOBS]: 'v0/jobstories.json',
+    [fetchTypes.BEST]: "v0/beststories.json",
+    [fetchTypes.TOP]: "v0/topstories.json",
+    [fetchTypes.NEW]: "v0/newstories.json",
+    [fetchTypes.ASK]: "v0/askstories.json",
+    [fetchTypes.SHOW]: "v0/showstories.json",
+    [fetchTypes.JOBS]: "v0/jobstories.json"
   }
 
   const getIdsUrl = typeToUrlMap[type]
@@ -48,7 +51,17 @@ async function _getStoriesIdsByType(type) {
   return response.data
 }
 
+function formatStory(story) {
+  return `${link(chalk.green.bold(story.title), story.url, {
+    fallback: fallbackLinkFormatter
+  })} ${chalk.grey(`(${story.date}, score: ${story.score})`)}`
+}
+
 module.exports = {
-  getStories,
-  fetchTypes
+  fetchTypes,
+  defaultFetchType: fetchTypes.BEST,
+  details: { name: "Hacker News", id: "hn" },
+  getItems: getStories,
+  formatter: formatStory,
+  defaultCacheTTL: 10
 }
