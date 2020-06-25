@@ -17,6 +17,7 @@ async function printItems({ provider, type, numOfItems, config }) {
     console.log("\n")
   } catch (err) {
     spinner.fail(`Failed fetching from ${provider.name}`)
+    console.error(err.message)
   }
 }
 
