@@ -3,34 +3,46 @@ const { Command } = require("commander")
 const Configstore = require("configstore")
 const packageJson = require("./package.json")
 const availableProviders = require("./providers")
-const { printItems, clearCache } = require("./cli")
+const { printItems, clearCache, showInteractiveConfig } = require("./cli")
 
-const config = new Configstore(packageJson.name, { default_items_limit: 5 })
+const config = new Configstore(packageJson.name, {
+  defaultItemsCount: 5,
+  defaultProviders: availableProviders.map((provider) => provider.id)
+})
 const program = new Command()
-
 program.version(packageJson.version)
 
 program
-  // .option("-i, --interactive", "show the news interactively")
-  // .option("-c, --configure", "configure fomo")
+  .option("-c, --config", "open configuration menu (interactive)")
+  .option("--clear-cache", "clear source cache")
   .option("-l, --limit <number>", "limit the number of responses per source")
   .option("-s, --source <source id>", "choose a specific news source")
   .option(
     "-t, --type <source type>",
     "choose a specific type for the selected source"
   )
-  .option("-cc, --clear-cache", "clear provider cache")
 
 program.parse(process.argv)
 
-const numOfItems = parseInt(program.limit) || config.get("default_items_limit")
+const numOfItems = parseInt(program.limit) || config.get("defaultItemsCount")
 
-if (program.clearCache) {
-  const provider =
-    program.source &&
-    availableProviders.find((provider) => provider.id === program.source)
-  clearCache(provider, program.type)
-} else if (program.source) {
+if (program.clearCache) handleClearCache()
+else if (program.config) showInteractiveConfig(config)
+else if (program.source) handleSpecificSource()
+else handleDefault()
+
+function handleDefault() {
+  const defaultProviders = config.get("defaultProviders")
+  const requiredProviders = availableProviders.filter((provider) =>
+    defaultProviders.includes(provider.id)
+  )
+
+  for (const provider of requiredProviders) {
+    printItems({ provider, numOfItems, config })
+  }
+}
+
+function handleSpecificSource() {
   const requiredProvider = availableProviders.find(
     (provider) => provider.id === program.source
   )
@@ -40,8 +52,11 @@ if (program.clearCache) {
     numOfItems,
     config
   })
-} else {
-  for (const provider of availableProviders) {
-    printItems({ provider, numOfItems, config })
-  }
+}
+
+function handleClearCache() {
+  const provider =
+    program.source &&
+    availableProviders.find((provider) => provider.id === program.source)
+  clearCache(provider, program.type)
 }
