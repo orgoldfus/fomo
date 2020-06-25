@@ -96,8 +96,7 @@ async function handleDefaultProvidersConfig(config) {
       name: "value",
       message: "Default providers",
       choices: sources,
-      min: 1,
-      hint: "- Space to select. Return to submit"
+      min: 1
     },
     { onCancel: () => (isCanceled = true) }
   )
