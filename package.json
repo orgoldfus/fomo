@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pkg . --out-path dist",
     "postuninstall": "node scripts/uninstall"
   },
   "repository": {
@@ -30,5 +31,8 @@
     "prompts": "^2.3.2",
     "rss-parser": "^3.8.0",
     "terminal-link": "^2.1.1"
+  },
+  "devDependencies": {
+    "pkg": "^4.4.9"
   }
 }
