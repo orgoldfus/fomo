@@ -1,14 +1,12 @@
-const path = require("path")
-const fs = require("fs")
-const basename = path.basename(__filename)
 const { buildProviderObject } = require("../utils/provider")
 
-const providers = fs
-  .readdirSync(__dirname)
-  .filter((file) => file !== basename)
-  .map((file) => {
-    const provider = require(`${__dirname}/${file}`)
-    return buildProviderObject(provider)
-  })
+const providers = [
+  require("./hackerNews"),
+  require("./productHunt"),
+  require("./techCrunch"),
+  require("./theVerge"),
+  require("./reddit"),
+  require("./wired")
+].map(buildProviderObject)
 
 module.exports = providers
