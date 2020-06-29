@@ -9,18 +9,37 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "pkg . --out-path dist",
+    "zip": "cd dist && find . -name 'fomoapp-*' -exec zip '{}.zip' '{}' \\;",
+    "release": "release-it --github.release --github.assets=dist/*.zip",
     "postuninstall": "node scripts/uninstall"
+  },
+  "release-it": {
+    "hooks": {
+      "after:bump": "rm -rf ./dist && npm run build && npm run zip"
+    }
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/orgoldfus/fomo.git"
   },
+  "keywords": [
+    "news",
+    "technology",
+    "tech",
+    "cli",
+    "terminal",
+    "term",
+    "console"
+  ],
   "author": "Or Goldfus",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/orgoldfus/fomo/issues"
   },
   "homepage": "https://github.com/orgoldfus/fomo#readme",
+  "engines": {
+    "node": ">=8"
+  },
   "dependencies": {
     "axios": "^0.19.2",
     "chalk": "^4.1.0",
@@ -33,6 +52,7 @@
     "terminal-link": "^2.1.1"
   },
   "devDependencies": {
-    "pkg": "^4.4.9"
+    "pkg": "^4.4.9",
+    "release-it": "^13.6.4"
   }
 }
