@@ -2,6 +2,7 @@
 <p align="center">Got FOMO? read the latest Tech news right from your Terminal</p>
 <p align="center"><img src="https://user-images.githubusercontent.com/4867932/85957302-ee263080-b994-11ea-912f-6ecfa2230942.gif" width="562" alt="fomo example"></p>
 
+![npm](https://img.shields.io/npm/v/fomoapp)
 
 ## Install
 ```sh
