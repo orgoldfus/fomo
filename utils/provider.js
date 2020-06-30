@@ -37,6 +37,7 @@ function buildProviderObject({
   return {
     fetchItems,
     types: fetchTypes,
+    defaultFetchType,
     ...details
   }
 }

@@ -1,3 +1,4 @@
+const chalk = require("chalk")
 const Table = require("cli-table")
 const providers = require("../providers")
 
@@ -13,7 +14,12 @@ function listAllSources(selectedSource) {
   sources.forEach((source) => {
     const types = Object.values(source.types)
       .sort()
-      .reduce((acc, curr) => `${acc}${acc ? "\n" : ""}${curr}`, "")
+      .reduce((acc, curr) => {
+        const isDefault = curr === source.defaultFetchType
+        return `${acc}${acc ? "\n" : ""}${curr}${
+          isDefault ? chalk.grey(" (default)") : ""
+        }`
+      }, "")
 
     table.push([source.name, source.id, types])
   })

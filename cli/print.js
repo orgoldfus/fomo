@@ -8,7 +8,9 @@ async function printItems({ provider, type, numOfItems, config }) {
     const items = await provider.fetchItems({ numOfItems, type, config })
     spinner.stop()
 
-    console.log(chalk.black.bgYellow(`${provider.name}:`))
+    console.log(
+      chalk.black.bgYellow(`${provider.name}${type ? ` (${type})` : ""}:`)
+    )
 
     for (const item of items) {
       console.log(chalk.yellow("●"), item)
