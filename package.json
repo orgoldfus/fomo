@@ -7,7 +7,7 @@
     "fomo": "index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest tests",
     "build": "pkg . --out-path dist",
     "zip": "cd dist && find . -name 'fomoapp-*' -exec zip '{}.zip' '{}' \\;",
     "release": "release-it --github.release --github.assets=dist/*.zip",
@@ -53,6 +53,8 @@
     "terminal-link": "^2.1.1"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.3",
+    "jest": "^26.1.0",
     "pkg": "^4.4.9",
     "release-it": "^13.6.4"
   }

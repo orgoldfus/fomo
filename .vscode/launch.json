@@ -6,12 +6,29 @@
   "configurations": [
     {
       "type": "node",
+      "name": "Run tests",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+      "args": [
+        "--runInBand"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "env": {
+        "NODE_ENV": "testing"
+      }
+    },
+    {
+      "type": "node",
       "request": "launch",
       "name": "Launch Program",
       "skipFiles": [
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/index.js"
-    }
+    },
+
   ]
 }
