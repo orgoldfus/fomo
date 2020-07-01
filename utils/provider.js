@@ -1,7 +1,7 @@
 const { take } = require("lodash")
 const {
   getFromCache,
-  cacheProviderResult,
+  cacheResult,
   isCacheDataValid
 } = require("./cache")
 
@@ -29,7 +29,7 @@ function buildProviderObject({
     }
 
     const items = await getItems(numOfItems, type)
-    cacheProviderResult(details.id, type, items)
+    cacheResult(details.id, type, items)
 
     return items.map(formatter)
   }

@@ -3,7 +3,7 @@ const { get } = require("lodash")
 
 const cache = new Configstore("fomoapp_cache")
 
-function cacheProviderResult(providerId, type, data) {
+function cacheResult(providerId, type, data) {
   const key = `${providerId}.${type}`
   const cachedData = { cachedAt: Date.now(), data }
   return cache.set(key, cachedData)
@@ -45,7 +45,7 @@ function isCacheDataValid(
 }
 
 module.exports = {
-  cacheProviderResult,
+  cacheResult,
   getFromCache,
   isCacheDataValid,
   clearCache
