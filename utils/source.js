@@ -5,7 +5,7 @@ const {
   isCacheDataValid
 } = require("./cache")
 
-function buildProviderObject({
+function buildSourceObject({
   fetchTypes,
   defaultFetchType,
   details,
@@ -43,5 +43,5 @@ function buildProviderObject({
 }
 
 module.exports = {
-  buildProviderObject
+  buildSourceObject
 }

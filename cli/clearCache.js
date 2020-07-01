@@ -1,21 +1,21 @@
 const cacheUtil = require("../utils/cache")
 
-function clearCache(provider, type) {
-  let providerId, providerType
+function clearCache(source, type) {
+  let sourceId, sourceType
 
-  if (provider) {
-    providerId = provider.id
+  if (source) {
+    sourceId = source.id
 
-    if (type && Object.values(provider.types).includes(type)) {
-      providerType = type
+    if (type && Object.values(source.types).includes(type)) {
+      sourceType = type
     }
   }
 
-  cacheUtil.clearCache(providerId, type)
+  cacheUtil.clearCache(sourceId, type)
   console.log(
     `Cleared cache ${
-      providerId
-        ? `for provider '${provider.name}' ${type ? `and type '${type}'` : ""}`
+      sourceId
+        ? `for source '${source.name}' ${type ? `and type '${type}'` : ""}`
         : ""
     }`
   )

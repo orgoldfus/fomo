@@ -34,6 +34,11 @@ Configure fomo using the `-c` flag:
 $ fomo -c # openes the configuration menu
 ```
 
+List all available sources (and their types) using the `-p` flag:
+```sh
+$ fomo -p # prints all available sources
+```
+
 Get help using the `-h` flag:
 ```sh
 $ fomo -h

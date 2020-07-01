@@ -3,21 +3,21 @@ const { get } = require("lodash")
 
 const cache = new Configstore("fomoapp_cache")
 
-function cacheResult(providerId, type, data) {
-  const key = `${providerId}.${type}`
+function cacheResult(sourceId, type, data) {
+  const key = `${sourceId}.${type}`
   const cachedData = { cachedAt: Date.now(), data }
   return cache.set(key, cachedData)
 }
 
-function getFromCache(providerId, type) {
-  const key = `${providerId}.${type}`
+function getFromCache(sourceId, type) {
+  const key = `${sourceId}.${type}`
   return cache.get(key)
 }
 
-function clearCache(providerId, type) {
+function clearCache(sourceId, type) {
   let key = '';
-  if (providerId) {
-    key = providerId
+  if (sourceId) {
+    key = sourceId
 
     if (type) {
       key += `.${type}`

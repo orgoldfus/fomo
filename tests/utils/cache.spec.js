@@ -22,7 +22,7 @@ const sourceId = "sourceSomth"
 const type = "someType"
 
 describe("cacheResult", () => {
-  it("should build the key using the provider and the type", () => {
+  it("should build the key using the source and the type", () => {
     const data = { foo: "bar" }
 
     cacheResult(sourceId, type, data)
@@ -34,7 +34,7 @@ describe("cacheResult", () => {
 })
 
 describe("getFromCache", () => {
-  it("should return the cached data for the required provider and type", () => {
+  it("should return the cached data for the required source and type", () => {
     const data = { correct: true }
     mockGet.mockImplementation((key) => {
       if (key.includes(sourceId) && key.includes(type)) {

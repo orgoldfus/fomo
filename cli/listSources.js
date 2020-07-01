@@ -1,17 +1,17 @@
 const chalk = require("chalk")
 const Table = require("cli-table")
-const providers = require("../providers")
+const sources = require("../sources")
 
 function listAllSources(selectedSource) {
   const table = new Table({
     head: ["Source", "Source ID", "Available types"]
   })
 
-  const sources = selectedSource
-    ? providers.filter((provider) => provider.id === selectedSource)
-    : providers
+  const availableSources = selectedSource
+    ? sources.filter((source) => source.id === selectedSource)
+    : sources
 
-  sources.forEach((source) => {
+    availableSources.forEach((source) => {
     const types = Object.values(source.types)
       .sort()
       .reduce((acc, curr) => {
