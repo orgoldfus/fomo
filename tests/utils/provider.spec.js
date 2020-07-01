@@ -1,4 +1,4 @@
-const { buildProviderObject } = require("../../utils/provider")
+const { buildSourceObject } = require("../../utils/source")
 const {
   getFromCache,
   isCacheDataValid,
@@ -11,19 +11,19 @@ jest.mock("../../utils/cache.js", () => ({
   isCacheDataValid: jest.fn()
 }))
 
-const mockProvider = {
+const mockSource = {
   fetchTypes: { A: "a", B: "b", C: "c" },
   defaultFetchType: "b",
-  details: { name: "Mock provider", id: "mock" },
+  details: { name: "Mock source", id: "mock" },
   getItems: jest.fn(),
   formatter: jest.fn(),
   defaultCacheTTL: 10
 }
 
-describe("buildProviderObject", () => {
+describe("buildSourceObject", () => {
   describe("fetchItems function", () => {
-    it("should throw an error if provider type does not exist", () => {
-      const { fetchItems } = buildProviderObject(mockProvider)
+    it("should throw an error if source type does not exist", () => {
+      const { fetchItems } = buildSourceObject(mockSource)
       const type = "nonExisting"
 
       expect(fetchItems({ numOfItems: 2, type })).rejects.toThrow(
@@ -32,22 +32,22 @@ describe("buildProviderObject", () => {
     })
 
     describe("There is no cached result", () => {
-      let provider, fetchItems
+      let source, fetchItems
       beforeEach(() => {
-        provider = Object.assign({}, mockProvider, {
+        source = Object.assign({}, mockSource, {
           getItems: jest.fn(() => [{}])
         })
-        const providerObj = buildProviderObject(provider)
-        fetchItems = providerObj.fetchItems
+        const sourceObj = buildSourceObject(source)
+        fetchItems = sourceObj.fetchItems
       })
 
-      it("should fetch items using the provider", async () => {
+      it("should fetch items using the source", async () => {
         await fetchItems({ numOfItems: 2 })
 
-        expect(provider.getItems).toBeCalled()
+        expect(source.getItems).toBeCalled()
       })
 
-      it("should cache the items returned from the provider", async () => {
+      it("should cache the items returned from the source", async () => {
         await fetchItems({ numOfItems: 2 })
 
         expect(cacheResult).toBeCalled()
@@ -56,19 +56,19 @@ describe("buildProviderObject", () => {
       it("should format the items using the formatter", async () => {
         await fetchItems({ numOfItems: 2 })
 
-        expect(provider.formatter).toBeCalled()
+        expect(source.formatter).toBeCalled()
       })
     })
 
     describe("There is a cached result", () => {
-      let provider
+      let source
       beforeEach(() => {
-        provider = Object.assign({}, mockProvider, {
-          getItems: jest.fn(() => [{ from: "provider" }]),
+        source = Object.assign({}, mockSource, {
+          getItems: jest.fn(() => [{ from: "source" }]),
           formatter: jest.fn((item) => item.from)
         })
-        const providerObj = buildProviderObject(provider)
-        fetchItems = providerObj.fetchItems
+        const sourceObj = buildSourceObject(source)
+        fetchItems = sourceObj.fetchItems
 
         isCacheDataValid.mockReturnValue(true)
         getFromCache.mockReturnValue({
@@ -77,25 +77,25 @@ describe("buildProviderObject", () => {
         })
       })
 
-      it("should get the items from the provider if cached data is invalid", async () => {
+      it("should get the items from the source if cached data is invalid", async () => {
         isCacheDataValid.mockReturnValue(false)
 
         const items = await fetchItems({ numOfItems: 1 })
 
-        expect(provider.getItems).toBeCalled()
-        expect(items).toEqual(["provider"])
+        expect(source.getItems).toBeCalled()
+        expect(items).toEqual(["source"])
       })
 
-      it("should not call the provider", async () => {
+      it("should not call the source", async () => {
         const items = await fetchItems({ numOfItems: 1 })
 
-        expect(provider.getItems).not.toBeCalled()
+        expect(source.getItems).not.toBeCalled()
       })
 
       it("should format the cached items using the formatter", async () => {
         const items = await fetchItems({ numOfItems: 1 })
 
-        expect(provider.formatter).toBeCalled()
+        expect(source.formatter).toBeCalled()
         expect(items).toEqual(["cache"])
       })
 

@@ -2,7 +2,7 @@
 const { Command } = require("commander")
 const Configstore = require("configstore")
 const packageJson = require("./package.json")
-const availableProviders = require("./providers")
+const availableSources = require("./sources")
 const {
   printItems,
   clearCache,
@@ -12,7 +12,7 @@ const {
 
 const config = new Configstore(packageJson.name, {
   defaultItemsCount: 5,
-  defaultProviders: availableProviders.map((provider) => provider.id)
+  defaultSources: availableSources.map((source) => source.id)
 })
 const program = new Command()
 program.version(packageJson.version)
@@ -43,22 +43,22 @@ else if (program.type) handleTypeWithoutSource()
 else handleDefault()
 
 function handleDefault() {
-  const defaultProviders = config.get("defaultProviders")
-  const requiredProviders = availableProviders.filter((provider) =>
-    defaultProviders.includes(provider.id)
+  const defaultSources = config.get("defaultSources")
+  const requiredSources = availableSources.filter((source) =>
+    defaultSources.includes(source.id)
   )
 
-  for (const provider of requiredProviders) {
-    printItems({ provider, numOfItems, config })
+  for (const source of requiredSources) {
+    printItems({ source, numOfItems, config })
   }
 }
 
 function handleSpecificSource() {
-  const requiredProvider = availableProviders.find(
-    (provider) => provider.id === program.source
+  const requiredSource = availableSources.find(
+    (source) => source.id === program.source
   )
   printItems({
-    provider: requiredProvider,
+    source: requiredSource,
     type: program.type,
     numOfItems,
     config
@@ -66,10 +66,10 @@ function handleSpecificSource() {
 }
 
 function handleClearCache() {
-  const provider =
+  const source =
     program.source &&
-    availableProviders.find((provider) => provider.id === program.source)
-  clearCache(provider, program.type)
+    availableSources.find((source) => source.id === program.source)
+  clearCache(source, program.type)
 }
 
 function handleTypeWithoutSource() {
@@ -80,17 +80,17 @@ function handleTypeWithoutSource() {
 }
 
 function handleListSources() {
-  if(program.source && !providerIsValid(program.source)) {
-    console.log(`Provider '${program.source}' does not exist`)
+  if(program.source && !sourceIsValid(program.source)) {
+    console.log(`Source '${program.source}' does not exist`)
   } else {
     listAllSources(program.source)
   }
 }
 
-function providerIsValid(providerId) {
-  const requiredProvider = availableProviders.find(
-    (provider) => provider.id === providerId
+function sourceIsValid(sourceId) {
+  const requiredSource = availableSources.find(
+    (source) => source.id === sourceId
   )
 
-  return !!requiredProvider
+  return !!requiredSource
 }

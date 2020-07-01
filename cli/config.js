@@ -1,5 +1,5 @@
 const prompts = require("prompts")
-const providers = require("../providers")
+const sources = require("../sources")
 
 const MAIN_OPTIONS = [
   {
@@ -10,7 +10,7 @@ const MAIN_OPTIONS = [
   {
     title: "Change the default sources",
     description: "The sources that would be displayed by default",
-    value: "defaultProviders"
+    value: "defaultSources"
   },
   {
     title: "Reset configuration",
@@ -43,8 +43,8 @@ async function showInteractiveConfig(config) {
         await handleItemsCountConfig(config)
         break
       }
-      case "defaultProviders": {
-        await handleDefaultProvidersConfig(config)
+      case "defaultSources": {
+        await handleDefaultSourcesConfig(config)
         break
       }
       case "resetConfig": {
@@ -81,12 +81,12 @@ async function handleItemsCountConfig(config) {
   }
 }
 
-async function handleDefaultProvidersConfig(config) {
-  const selectedSources = config.get("defaultProviders") || []
-  const sources = providers.map((provider) => ({
-    title: provider.name,
-    value: provider.id,
-    selected: selectedSources.includes(provider.id)
+async function handleDefaultSourcesConfig(config) {
+  const selectedSources = config.get("defaultSources") || []
+  const availableSources = sources.map((source) => ({
+    title: source.name,
+    value: source.id,
+    selected: selectedSources.includes(source.id)
   }))
 
   let isCanceled = false
@@ -94,15 +94,15 @@ async function handleDefaultProvidersConfig(config) {
     {
       type: "autocompleteMultiselect",
       name: "value",
-      message: "Default providers",
-      choices: sources,
+      message: "Default sources",
+      choices: availableSources,
       min: 1
     },
     { onCancel: () => (isCanceled = true) }
   )
 
   if (!isCanceled) {
-    config.set("defaultProviders", response.value)
+    config.set("defaultSources", response.value)
   }
 }
 

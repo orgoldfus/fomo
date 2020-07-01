@@ -1,12 +1,12 @@
-const { buildProviderObject } = require("../utils/provider")
+const { buildSourceObject } = require("../utils/source")
 
-const providers = [
+const sources = [
   require("./hackerNews"),
   require("./productHunt"),
   require("./techCrunch"),
   require("./theVerge"),
   require("./reddit"),
   require("./wired")
-].map(buildProviderObject)
+].map(buildSourceObject)
 
-module.exports = providers
+module.exports = sources
