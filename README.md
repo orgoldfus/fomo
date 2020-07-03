@@ -44,5 +44,15 @@ Get help using the `-h` flag:
 $ fomo -h
 ```
 
+## Sources
+| Source       	| Source ID 	| Available types                                                                                           	|
+|--------------	|-----------	|-----------------------------------------------------------------------------------------------------------	|
+| Hacker News  	| hn        	| ask (Ask HN)<br>best<br>jobs<br>new<br>show (Show HN)<br>top                                              	|
+| Product Hunt 	| ph        	| featured<br>new<br>top_ranking<br>top_votes                                                               	|
+| TechCrunch   	| tc        	| euro<br>funding<br>gear<br>mobile<br>social<br>startups<br>top                                            	|
+| The Verge    	| verge     	| breaking<br>culture<br>full<br>mobile<br>sw (Software and Apps)<br>web                                    	|
+| Reddit       	| reddit    	| fed (r/Frontend)<br>js (r/javascript)<br>prog (r/programming)<br>tech (r/technology)<br>webdev (r/webdev) 	|
+| Wired        	| wired     	| business<br>gear<br>science<br>top                                                                        	|
+
 ## License
 [MIT](LICENSE)
