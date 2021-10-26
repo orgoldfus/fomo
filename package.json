@@ -53,8 +53,8 @@
     "terminal-link": "^2.1.1"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.24",
-    "jest": "^26.6.3",
+    "@types/jest": "^27.0.2",
+    "jest": "^27.3.1",
     "pkg": "^4.5.1",
     "release-it": "^14.11.6"
   }
