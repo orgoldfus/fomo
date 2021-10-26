@@ -32,14 +32,15 @@ program
   )
 
 program.parse(process.argv)
+const options = program.opts();
 
-const numOfItems = parseInt(program.limit) || config.get("defaultItemsCount")
+const numOfItems = parseInt(options.limit) || config.get("defaultItemsCount")
 
-if (program.clearCache) handleClearCache()
-else if (program.listAll) handleListSources()
-else if (program.config) showInteractiveConfig(config)
-else if (program.source) handleSpecificSource()
-else if (program.type) handleTypeWithoutSource()
+if (options.clearCache) handleClearCache()
+else if (options.listAll) handleListSources()
+else if (options.config) showInteractiveConfig(config)
+else if (options.source) handleSpecificSource()
+else if (options.type) handleTypeWithoutSource()
 else handleDefault()
 
 function handleDefault() {
@@ -55,11 +56,11 @@ function handleDefault() {
 
 function handleSpecificSource() {
   const requiredSource = availableSources.find(
-    (source) => source.id === program.source
+    (source) => source.id === options.source
   )
   printItems({
     source: requiredSource,
-    type: program.type,
+    type: options.type,
     numOfItems,
     config
   })
@@ -67,9 +68,9 @@ function handleSpecificSource() {
 
 function handleClearCache() {
   const source =
-    program.source &&
-    availableSources.find((source) => source.id === program.source)
-  clearCache(source, program.type)
+  options.source &&
+    availableSources.find((source) => source.id === options.source)
+  clearCache(source, options.type)
 }
 
 function handleTypeWithoutSource() {
@@ -80,10 +81,10 @@ function handleTypeWithoutSource() {
 }
 
 function handleListSources() {
-  if(program.source && !sourceIsValid(program.source)) {
-    console.log(`Source '${program.source}' does not exist`)
+  if(options.source && !sourceIsValid(options.source)) {
+    console.log(`Source '${options.source}' does not exist`)
   } else {
-    listAllSources(program.source)
+    listAllSources(options.source)
   }
 }
 
