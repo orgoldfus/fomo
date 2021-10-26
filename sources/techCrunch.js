@@ -46,9 +46,13 @@ async function getStories(numOfStories, type) {
 }
 
 function formatStory(item) {
+  const content = item.contentSnippet 
+    ? `${item.contentSnippet.split('.')[0]}.` 
+    : "";
+
   return `${link(chalk.green.bold(item.title), item.link, {
     fallback: fallbackLinkFormatter
-  })} ${chalk.white(`- ${item.contentSnippet}`)} ${chalk.grey(
+  })} ${chalk.white(`- ${content}`)} ${chalk.grey(
     `(${item.isoDate}, by ${item.creator})`
   )}`
 }
