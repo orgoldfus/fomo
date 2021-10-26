@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "jest tests",
-    "build": "pkg . --out-path dist",
+    "build": "pkg --compress Brotli . --out-path dist",
     "zip": "cd dist && find . -name 'fomoapp-*' -exec zip '{}.zip' '{}' \\;",
     "release": "release-it --github.release --github.assets=dist/*.zip",
     "postuninstall": "node scripts/uninstall"
@@ -38,24 +38,24 @@
   },
   "homepage": "https://github.com/orgoldfus/fomo#readme",
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "dependencies": {
-    "axios": "^0.20.0",
-    "chalk": "^4.1.0",
-    "cli-table": "^0.3.1",
-    "commander": "^6.1.0",
+    "axios": "^0.24.0",
+    "chalk": "^4.1.2",
+    "cli-table": "^0.3.6",
+    "commander": "^6.2.1",
     "configstore": "^5.0.1",
-    "lodash": "^4.17.20",
-    "ora": "^4.1.1",
-    "prompts": "^2.3.2",
-    "rss-parser": "^3.9.0",
+    "lodash": "^4.17.21",
+    "ora": "^5.4.1",
+    "prompts": "^2.4.2",
+    "rss-parser": "^3.12.0",
     "terminal-link": "^2.1.1"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.14",
-    "jest": "^26.5.0",
-    "pkg": "^4.4.9",
-    "release-it": "^14.0.3"
+    "@types/jest": "^27.0.2",
+    "jest": "^27.3.1",
+    "pkg": "^5.4.0",
+    "release-it": "^14.11.6"
   }
 }
