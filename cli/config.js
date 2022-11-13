@@ -1,4 +1,5 @@
 const prompts = require("prompts")
+const isValidPath = require("is-valid-path")
 const sources = require("../sources")
 
 const MAIN_OPTIONS = [
@@ -11,6 +12,12 @@ const MAIN_OPTIONS = [
     title: "Change the default sources",
     description: "The sources that would be displayed by default",
     value: "defaultSources"
+  },
+  {
+    title: "Configure external rss feeds directory",
+    description:
+      "The path to the directory containing the external RSS config files",
+    value: "setExternalDir"
   },
   {
     title: "Reset configuration",
@@ -45,6 +52,11 @@ async function showInteractiveConfig(config) {
       }
       case "defaultSources": {
         await handleDefaultSourcesConfig(config)
+        break
+      }
+      case "setExternalDir": {
+        await handleSetExternalDir(config)
+        shouldExit = true
         break
       }
       case "resetConfig": {
@@ -103,6 +115,27 @@ async function handleDefaultSourcesConfig(config) {
 
   if (!isCanceled) {
     config.set("defaultSources", response.value)
+  }
+}
+
+async function handleSetExternalDir(config) {
+  let isCanceled = false
+  const response = await prompts(
+    {
+      type: "text",
+      name: "value",
+      message: "Enter the path to your external RSS sources directory",
+      min: 1
+    },
+    { onCancel: () => (isCanceled = true) }
+  )
+
+  if (!isCanceled) {
+    if (isValidPath(response.value)) {
+      config.set("userDefinedRSSDir", response.value)
+    } else {
+      throw new Error("The path provided is invalid")
+    }
   }
 }
 

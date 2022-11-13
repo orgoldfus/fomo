@@ -1,4 +1,7 @@
 const { buildSourceObject } = require("../utils/source")
+const { loadExternalSources } = require("../utils/externalSource")
+
+const externalRssSources = loadExternalSources()
 
 const sources = [
   require("./hackerNews"),
@@ -6,7 +9,8 @@ const sources = [
   require("./techCrunch"),
   require("./theVerge"),
   require("./reddit"),
-  require("./wired")
+  require("./wired"),
+  ...externalRssSources
 ].map(buildSourceObject)
 
 module.exports = sources
