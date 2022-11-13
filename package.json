@@ -1,6 +1,6 @@
 {
   "name": "fomoapp",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Get the latest tech news right into your CLI",
   "main": "index.js",
   "bin": {
