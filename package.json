@@ -46,6 +46,7 @@
     "cli-table": "^0.3.11",
     "commander": "^9.4.1",
     "configstore": "^5.0.1",
+    "is-valid-path": "^0.1.1",
     "lodash": "^4.17.21",
     "ora": "^5.4.1",
     "prompts": "^2.4.2",
